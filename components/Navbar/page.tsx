@@ -86,6 +86,7 @@ export function DoubleNavbar({ extraContent }: { extraContent?: React.ReactNode 
       </UnstyledButton>
     </Tooltip>
   ));
+  //@ts-ignore
   const ActiveComponent = componentMap[active]||(()=>{
     <div>
       No component selected
