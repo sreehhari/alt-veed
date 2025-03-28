@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   IconCalendarStats,
   IconDeviceDesktopAnalytics,
@@ -8,49 +8,67 @@ import {
   IconSettings,
   IconUser,
   TablerIcon,
-} from "@tabler/icons-react";
-import { Title, Tooltip, UnstyledButton } from "@mantine/core";
-import classes from "./DoubleNavbar.module.css";
-import { VideoComponent } from "../VideoComponent/page";
-import { CanvasEditor } from "../CanvasEditor/page";
+} from '@tabler/icons-react';
+import { Title, Tooltip, UnstyledButton } from '@mantine/core';
+import classes from './DoubleNavbar.module.css';
+import { CanvasEditor } from '../CanvasEditor/page';
+import { ReactNode } from 'react';
+// interface MainLink{
+//     icon:TablerIcon;
+//     label:string;
+//     component:()=>ReactNode;
 
-const GenericComponent = () => (
-  <div>
-    <p>Generic Component</p>
-  </div>
-);
+// }
 
-const mainLinksMockdata = [
-  { icon: IconHome2, label: "Home" },
-  { icon: IconGauge, label: "Dashboard" },
-  { icon: IconDeviceDesktopAnalytics, label: "Analytics" },
-  { icon: IconCalendarStats, label: "Releases" },
-  { icon: IconUser, label: "Account" },
-  { icon: IconFingerprint, label: "Security" },
-  { icon: IconSettings, label: "Settings" },
-];
+// interface DoubleNavbarProps {
+//     active: string;
+//     setActive: (label: string) => void;
+//     mainLinksMockdata: MainLink[];
+// }
+import { VideoComponent } from '../VideoComponent/page';
+const GenericConponent=()=>{
+    return(
+    <div>
+        <p>generic</p>
+    </div>
+)}
 
-const componentMap: Record<string, React.FC<{ onFileSelect?: (file: File) => void }>> = {
-  Home: VideoComponent,
-  Dashboard: GenericComponent,
-  Analytics: VideoComponent,
-  Releases: GenericComponent,
-  Account: VideoComponent,
-  Security: GenericComponent,
-  Settings: VideoComponent,
-};
-
-export function DoubleNavbar() {
-  const [active, setActive] = useState("Releases");
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-
-  const handleFileSelect = (file: File) => {
-    console.log("Selected file:", file);
-    setSelectedFile(file);
+const mainLinksMockdata= [
+    { icon: IconHome2, label: 'Home'},
+    { icon: IconGauge, label: 'Dashboard'},
+    { icon: IconDeviceDesktopAnalytics, label: 'Analytics'},
+    { icon: IconCalendarStats, label: 'Releases'},
+    { icon: IconUser, label: 'Account'},
+    { icon: IconFingerprint, label: 'Security'},
+    { icon: IconSettings, label: 'Settings'},
+  ];
+  const componentMap = {
+    'Home': VideoComponent,
+    'Dashboard': GenericConponent,
+    'Analytics': VideoComponent,
+    'Releases': GenericConponent,
+    'Account': VideoComponent,
+    'Security': GenericConponent,
+    'Settings': VideoComponent,
   };
 
-  const ActiveComponent = componentMap[active] || (() => <div>No component selected</div>);
+const linksMockdata = [
+  'Security',
+  'Settings',
+  'Dashboard',
+  'Releases',
+  'Account',
+  'Orders',
+  'Clients',
+  'Databases',
+  'Pull Requests',
+  'Open Issues',
+  'Wiki pages',
+];
 
+export function DoubleNavbar({ extraContent }: { extraContent?: React.ReactNode }) {
+  const [active, setActive] = useState('Releases');
+//   const [activeLink, setActiveLink] = useState('Settings');
   const mainLinks = mainLinksMockdata.map((link) => (
     <Tooltip
       label={link.label}
@@ -68,12 +86,33 @@ export function DoubleNavbar() {
       </UnstyledButton>
     </Tooltip>
   ));
+  const ActiveComponent = componentMap[active]||(()=>{
+    <div>
+      No component selected
+    </div>
+  })
+
+//   const links = linksMockdata.map((link) => (
+//     <a
+//       className={classes.link}
+//       data-active={activeLink === link || undefined}
+//       href="#"
+//       onClick={(event) => {
+//         event.preventDefault();
+//         setActiveLink(link);
+//       }}
+//       key={link}
+//     >
+//       {link}
+//     </a>
+//   ));
 
   return (
     <nav className={classes.navbar}>
       <div className={classes.wrapper}>
         <div className={classes.aside}>
-          <div className={classes.logo}></div>
+          <div className={classes.logo}>
+          </div>
           {mainLinks}
         </div>
         <div className={classes.main}>
@@ -81,11 +120,7 @@ export function DoubleNavbar() {
             {active}
           </Title>
 
-          {/* ✅ Properly render the ActiveComponent with props */}
-          <ActiveComponent onFileSelect={handleFileSelect} />
-
-          {/* ✅ Show the CanvasEditor only when a file is selected */}
-          {selectedFile && <CanvasEditor file={selectedFile} />}
+          <ActiveComponent/>
         </div>
       </div>
     </nav>

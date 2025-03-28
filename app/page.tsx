@@ -17,7 +17,7 @@ export default function HomePage() {
   return (
     <Flex direction="row" style={{ height: "100vh" }}>
       {/* ✅ Sidebar (Fixed: No children, just a prop) */}
-      <DoubleNavbar extraContent={<VideoComponent onFileSelect={handleFileSelect} />} />
+      <DoubleNavbar/>
 
       {/* ✅ Main content area */}
       <Flex flex={1} align="center" justify="center">
